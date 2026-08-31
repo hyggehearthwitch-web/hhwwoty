@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A Hygge Hearth Witch's Wheel of the Year — Moon, Sabbat &amp; Feast Calendar</title>
+    <meta name="description" content="A mystical calendar of sabbats, feasts, lunar events, moon phases, retrogrades, zodiac shifts and daily magical correspondences." />
+    <meta property="og:title" content="A Hygge Hearth Witch's Wheel of the Year — Moon, Sabbat &amp; Feast Calendar" />
+    <meta property="og:description" content="Browse sabbats, feasts, moon phases, retrogrades and daily correspondences month by month." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Karla:wght@400;500;600&amp;display=swap" />
+    <style>
+
+/* Witch's Wheel of the Year — standalone stylesheet (no build step required) */
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(100% 0 0);
+  --foreground: oklch(45.76% 0.0259 73.09);
+  --card: oklch(0.8526 0.0403 337.66);
+  --primary: oklch(45.76% 0.0259 73.09);
+  --primary-foreground: oklch(0.8526 0.0403 337.66);
+  --secondary: oklch(74.96% 0.0635 105.6);
+  --muted-foreground: oklch(45.76% 0.0259 73.09);
+  --accent: oklch(45.76% 0.0259 73.09);
+  --border: oklch(45.76% 0.0259 73.09 / 0.22);
+
+  --sabbat: oklch(45.76% 0.0259 73.09);
+  --moon: oklch(74.96% 0.0635 105.6);
+  --retrograde: oklch(0.68 0.16 20);
+  --zodiac: oklch(0.74 0.13 155);
+  --aspect: oklch(0.7 0.11 300);
+  --correspondence: oklch(0.68 0.03 300);
+  --feast: oklch(0.72 0.15 60);
+  --other: var(--muted-foreground);
+
+  --gradient-night:
+    radial-gradient(ellipse 80% 60% at 50% -10%, oklch(0.8526 0.0403 337.66 / 0.75), transparent 70%),
+    linear-gradient(180deg, oklch(100% 0 0), oklch(0.95 0.02 337.66));
+  --shadow-glow: 0 0 40px oklch(45.76% 0.0259 73.09 / 0.18);
+  --shadow-card: 0 18px 50px oklch(45.76% 0.0259 73.09 / 0.18);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--gradient-night) fixed;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  margin: 0;
+  font-weight: 600;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.surface {
+  background-color: color-mix(in oklab, var(--card) 70%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-card);
+}
+
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: 4rem 1.5rem;
+  }
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0;
+}
+
+.page-header h1 {
+  margin-top: 0.75rem;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  line-height: 1.1;
+}
+
+.lede {
+  margin: 1rem auto 0;
+  max-width: 36rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.caps {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Time zone row */
+.tz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.tz-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.tz-select {
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  color: var(--foreground);
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  max-width: 16rem;
+}
+
+/* Pills / filters */
+.pill {
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+  color: var(--foreground);
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.pill:hover {
+  border-color: color-mix(in oklab, var(--primary) 60%, transparent);
+  color: var(--primary);
+}
+
+.pill-caps {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  background: transparent;
+  color: var(--muted-foreground);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.filter[aria-pressed="true"] {
+  border-color: color-mix(in oklab, var(--primary) 60%, transparent);
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  color: var(--foreground);
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  border-radius: 999px;
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+.dot.md {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.dot-sabbat {
+  background: var(--sabbat);
+}
+.dot-moon {
+  background: var(--moon);
+}
+.dot-retrograde {
+  background: var(--retrograde);
+}
+.dot-zodiac {
+  background: var(--zodiac);
+}
+.dot-aspect {
+  background: var(--aspect);
+}
+.dot-correspondence {
+  background: var(--correspondence);
+}
+.dot-feast {
+  background: var(--feast);
+}
+.dot-other {
+  background: var(--other);
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1.6fr 1fr;
+  }
+}
+
+.month-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.month-bar h2 {
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 500;
+}
+
+.month-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grid-card {
+  border-radius: calc(var(--radius) + 8px);
+  padding: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .grid-card {
+    padding: 1.25rem;
+  }
+}
+
+.weekdays,
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.weekdays {
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.weekdays div {
+  padding: 0.25rem 0;
+}
+
+.day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+  background: transparent;
+  transition: all 0.15s ease;
+}
+
+@media (min-width: 640px) {
+  .day {
+    height: 5rem;
+  }
+}
+
+.day.out {
+  border-color: transparent;
+  opacity: 0.35;
+}
+
+.day:hover {
+  border-color: color-mix(in oklab, var(--primary) 50%, transparent);
+  background: color-mix(in oklab, var(--secondary) 40%, transparent);
+}
+
+.day.selected {
+  border-color: var(--primary);
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  box-shadow: var(--shadow-glow);
+}
+
+.day-num {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .day-num {
+    font-size: 1.125rem;
+  }
+}
+
+.day.today .day-num {
+  color: var(--primary);
+}
+
+.day.today::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in oklab, var(--primary) 70%, transparent);
+}
+
+.day-emoji {
+  margin-top: 0.125rem;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.day-marks {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
+/* Day panel */
+.day-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.day-panel h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 32rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.event {
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.event-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.event-title {
+  font-size: 1.125rem;
+  line-height: 1.25;
+  font-weight: 500;
+  margin: 0;
+}
+
+.event-meta {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.event-titles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.event-preview {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-body {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--muted-foreground);
+}
+
+.event-body a,
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.empty {
+  border-radius: var(--radius);
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+/* Horizon */
+.horizon {
+  margin-top: 3.5rem;
+}
+
+.horizon h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.horizon-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .horizon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.horizon-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: left;
+}
+
+.horizon-item:hover {
+  border-color: color-mix(in oklab, var(--primary) 50%, transparent);
+}
+
+.horizon-item .title {
+  display: block;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.horizon-item .date {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.page-footer {
+  margin-top: 4rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+    
+.live-status{font-size:.8rem;letter-spacing:.02em;opacity:.75;margin-top:.35rem}
+.live-status.live-offline{color:#c98b4b}
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script id="wheel-data" type="application/json">{{EVENTS_JSON}}</script>
+    <script>
+(function () {
+  "use strict";
+
+  var CATEGORY_LABELS = {
+    sabbat: "Sabbats",
+    moon: "Moon phases",
+    retrograde: "Retrogrades",
+    zodiac: "Zodiac",
+    aspect: "Lunar aspects",
+    correspondence: "Daily correspondence",
+    feast: "Feasts",
+    other: "Other",
+  };
+  var CATEGORY_ORDER = [
+    "sabbat",
+    "moon",
+    "retrograde",
+    "zodiac",
+    "aspect",
+    "correspondence",
+    "feast",
+    "other",
+  ];
+  var MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  var WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var DEFAULT_TZ = "America/Edmonton";
+
+  // ---------- calendar data ----------
+  function classify(title) {
+    var t = String(title || "").trim();
+    if (/^[\u2764\uFE0F\u{1F49B}\u{1F49A}\u{1F499}\u{1F49C}\u{1F5A4}\u{1F90D}\u{1F9E1}\u{1F496}\u{1F49C}\s]+$/u.test(t) && t.length <= 6)
+      return "correspondence";
+    if (/\bfeast\b/i.test(t) || /\bst\.?\s/i.test(t)) return "feast";
+    if (/\b(retrograde|direct)\b/i.test(t)) return "retrograde";
+    if (/^moon\s+(conjunction|opposition|sextile|square|trine|quincunx|semisextile)\b/i.test(t))
+      return "aspect";
+    if (/moon/i.test(t)) return "moon";
+    if (
+      /(solstice|equinox|imbolc|beltane|lughnasadh|samhain|yule|eostre|ostara|litha|mabon)/i.test(t)
+    )
+      return "sabbat";
+    if (/^sun enters\b/i.test(t)) return "zodiac";
+    return "other";
+  }
+
+  function normalize(list) {
+    return (list || []).map(function (e) {
+      if (e.category === "correspondence") {
+        var copy = Object.assign({}, e);
+        copy.emoji = e.title;
+        copy.title = String(e.description || "").split("\\n")[0] + " correspondences";
+        return copy;
+      }
+      return e;
+    });
+  }
+
+  var DATA = JSON.parse(document.getElementById("wheel-data").textContent);
+  var META = DATA.meta || { name: "Witch's Wheel of the Year", timezone: DEFAULT_TZ };
+  var EVENTS = normalize(DATA.events);
+  var liveStatus = {
+    state: "snapshot",
+    message:
+      "Calendar snapshot updated " +
+      (META.syncedAt
+        ? new Date(META.syncedAt).toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+          })
+        : "by GitHub Actions"),
+  };
+
+  function toKey(d) {
+    return (
+      d.getFullYear() +
+      "-" +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function monthMatrix(year, month) {
+    var first = new Date(year, month, 1);
+    var start = new Date(first);
+    start.setDate(1 - first.getDay());
+    var out = [];
+    for (var i = 0; i < 42; i++) {
+      var d = new Date(start);
+      d.setDate(start.getDate() + i);
+      out.push(d);
+    }
+    return out;
+  }
+
+  function formatLongDate(key) {
+    var p = key.split("-").map(Number);
+    return new Date(p[0], p[1] - 1, p[2]).toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
+  function formatTime(time) {
+    if (!time) return "All day";
+    var p = time.split(":").map(Number);
+    var h = p[0] || 0;
+    var m = p[1] || 0;
+    var suffix = h >= 12 ? "pm" : "am";
+    var hour = h % 12 === 0 ? 12 : h % 12;
+    return hour + ":" + String(m).padStart(2, "0") + " " + suffix;
+  }
+
+  function offsetMinutes(tz, utcDate) {
+    var dtf = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    var p = {};
+    dtf.formatToParts(utcDate).forEach(function (x) {
+      p[x.type] = x.value;
+    });
+    var asUTC = Date.UTC(
+      Number(p.year),
+      Number(p.month) - 1,
+      Number(p.day),
+      Number(p.hour === "24" ? "0" : p.hour),
+      Number(p.minute),
+      Number(p.second),
+    );
+    return (asUTC - utcDate.getTime()) / 60000;
+  }
+
+  function wallToUtc(dateKey, time, tz) {
+    var d = dateKey.split("-").map(Number);
+    var t = (time || "00:00").split(":").map(Number);
+    var guess = Date.UTC(d[0], d[1] - 1, d[2], t[0] || 0, t[1] || 0);
+    var off = offsetMinutes(tz, new Date(guess));
+    return new Date(guess - off * 60000);
+  }
+
+  function shiftEvent(event, targetTz, defaultTz) {
+    if (event.allDay || !event.time) return event;
+    var srcTz = event.srcTz || defaultTz;
+    if (srcTz === targetTz) return event;
+    var utc = wallToUtc(event.date, event.time, srcTz);
+    var parts = {};
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: targetTz,
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+      .formatToParts(utc)
+      .forEach(function (x) {
+        parts[x.type] = x.value;
+      });
+    var hour = parts.hour === "24" ? "00" : parts.hour;
+    var copy = Object.assign({}, event);
+    copy.date = parts.year + "-" + parts.month + "-" + parts.day;
+    copy.time = hour + ":" + parts.minute;
+    return copy;
+  }
+
+  function timeZoneList() {
+    try {
+      return Intl.supportedValuesOf("timeZone");
+    } catch (err) {
+      return [
+        DEFAULT_TZ,
+        "America/Los_Angeles",
+        "America/Chicago",
+        "America/New_York",
+        "UTC",
+        "Europe/London",
+        "Europe/Berlin",
+        "Asia/Tokyo",
+        "Australia/Sydney",
+      ];
+    }
+  }
+
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs)
+      Object.keys(attrs).forEach(function (k) {
+        var v = attrs[k];
+        if (v === null || v === false || v === undefined) return;
+        if (k === "class") node.className = v;
+        else if (k === "text") node.textContent = v;
+        else if (k.slice(0, 2) === "on") node.addEventListener(k.slice(2), v);
+        else node.setAttribute(k, v === true ? "" : v);
+      });
+    (children || []).forEach(function (c) {
+      if (c === null || c === undefined || c === false) return;
+      node.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    });
+    return node;
+  }
+
+  function dot(category, md) {
+    return el("span", { class: "dot dot-" + category + (md ? " md" : "") });
+  }
+
+  function linkify(text) {
+    var frag = document.createDocumentFragment();
+    String(text)
+      .split(/(https?:\/\/[^\s]+)/g)
+      .forEach(function (part) {
+        if (/^https?:\/\//.test(part)) {
+          frag.appendChild(
+            el("a", { href: part, target: "_blank", rel: "noreferrer", text: part }),
+          );
+        } else if (part) {
+          frag.appendChild(el("span", { text: part }));
+        }
+      });
+    return frag;
+  }
+
+  // ---------- state ----------
+  var today = toKey(new Date());
+  var state = {
+    timezone: META.timezone || DEFAULT_TZ,
+    filter: new Set(CATEGORY_ORDER),
+    selected: today,
+    cursor: { year: new Date().getFullYear(), month: new Date().getMonth() },
+    open: new Set(),
+  };
+  try {
+    var stored = localStorage.getItem("wheel.timezone");
+    if (stored) state.timezone = stored;
+  } catch (err) {
+    /* storage unavailable */
+  }
+
+  var index = new Map();
+  function rebuildIndex() {
+    index = new Map();
+    EVENTS.forEach(function (raw) {
+      var e = shiftEvent(raw, state.timezone, META.timezone || DEFAULT_TZ);
+      var list = index.get(e.date);
+      if (list) list.push(e);
+      else index.set(e.date, [e]);
+    });
+  }
+
+  function visibleOn(key) {
+    return (index.get(key) || []).filter(function (e) {
+      return state.filter.has(e.category);
+    });
+  }
+
+  function changeTimezone(tz) {
+    state.timezone = tz;
+    try {
+      localStorage.setItem("wheel.timezone", tz);
+    } catch (err) {
+      /* storage unavailable */
+    }
+    rebuildIndex();
+    render();
+  }
+
+  // ---------- render ----------
+  function render() {
+    var root = document.getElementById("app");
+    root.textContent = "";
+    root.appendChild(
+      el("main", { class: "page" }, [
+        header(),
+        tzRow(),
+        filters(),
+        el("div", { class: "layout" }, [calendarSection(), dayPanel()]),
+        horizonSection(),
+        el("footer", { class: "page-footer" }, [
+          el("p", {
+            text: "Times shown in " + state.timezone.replace(/_/g, " ") + ".",
+          }),
+          el("p", { class: "live-status live-" + liveStatus.state, text: liveStatus.message }),
+        ]),
+        aboutSection(),
+      ]),
+    );
+  }
+
+  function header() {
+    return el("header", { class: "page-header" }, [
+      el("p", { class: "eyebrow", text: state.timezone.replace(/_/g, " ") }),
+      el("h1", { text: META.name }),
+      el("p", {
+        class: "lede",
+        text:
+          "Sabbats, feasts, lunar events, moon phases, retrogrades, zodiac shifts and daily magical correspondences — gathered into one place.",
+      }),
+    ]);
+  }
+
+  function tzRow() {
+    var list = timeZoneList();
+    if (META.timezone && list.indexOf(META.timezone) === -1) list = [META.timezone].concat(list);
+    var select = el("select", {
+      id: "tz-select",
+      class: "tz-select",
+      onchange: function (ev) {
+        changeTimezone(ev.target.value);
+      },
+    });
+    list.forEach(function (tz) {
+      var opt = el("option", { value: tz, text: tz.replace(/_/g, " ") });
+      if (tz === state.timezone) opt.selected = true;
+      select.appendChild(opt);
+    });
+    return el("section", { class: "tz-row surface", "aria-label": "Time zone" }, [
+      el("label", { class: "tz-label", for: "tz-select", text: "Time zone" }),
+      select,
+      el("button", {
+        type: "button",
+        class: "pill",
+        text: "Use my zone",
+        onclick: function () {
+          changeTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        },
+      }),
+      el("button", {
+        type: "button",
+        class: "pill",
+        text: "Calendar zone",
+        onclick: function () {
+          changeTimezone(META.timezone || DEFAULT_TZ);
+        },
+      }),
+    ]);
+  }
+
+  function filters() {
+    return el(
+      "nav",
+      { class: "filters", "aria-label": "Category filters" },
+      CATEGORY_ORDER.map(function (cat) {
+        return el(
+          "button",
+          {
+            type: "button",
+            class: "filter",
+            "aria-pressed": state.filter.has(cat) ? "true" : "false",
+            onclick: function () {
+              if (state.filter.has(cat)) state.filter.delete(cat);
+              else state.filter.add(cat);
+              render();
+            },
+          },
+          [dot(cat), CATEGORY_LABELS[cat]],
+        );
+      }),
+    );
+  }
+
+  function calendarSection() {
+    var bar = el("div", { class: "month-bar" }, [
+      el("button", {
+        type: "button",
+        class: "pill",
+        "aria-label": "Previous month",
+        text: "←",
+        onclick: function () {
+          shiftMonth(-1);
+        },
+      }),
+      el("h2", { text: MONTHS[state.cursor.month] + " " + state.cursor.year }),
+      el("div", { class: "month-bar-actions" }, [
+        el("button", {
+          type: "button",
+          class: "pill pill-caps",
+          text: "Today",
+          onclick: function () {
+            var d = new Date();
+            state.cursor = { year: d.getFullYear(), month: d.getMonth() };
+            state.selected = toKey(d);
+            state.open = new Set();
+            render();
+          },
+        }),
+        el("button", {
+          type: "button",
+          class: "pill",
+          "aria-label": "Next month",
+          text: "→",
+          onclick: function () {
+            shiftMonth(1);
+          },
+        }),
+      ]),
+    ]);
+
+    var weekdays = el(
+      "div",
+      { class: "weekdays" },
+      WEEKDAYS.map(function (d) {
+        return el("div", { text: d });
+      }),
+    );
+
+    var grid = el(
+      "div",
+      { class: "month-grid" },
+      monthMatrix(state.cursor.year, state.cursor.month).map(function (d) {
+        var key = toKey(d);
+        var list = visibleOn(key);
+        var corr = list.filter(function (e) {
+          return e.category === "correspondence";
+        })[0];
+        var classes = ["day"];
+        if (d.getMonth() !== state.cursor.month) classes.push("out");
+        if (key === state.selected) classes.push("selected");
+        if (key === today) classes.push("today");
+        var marks = el(
+          "span",
+          { class: "day-marks" },
+          list
+            .filter(function (e) {
+              return e.category !== "correspondence";
+            })
+            .slice(0, 4)
+            .map(function (e) {
+              return dot(e.category);
+            }),
+        );
+        return el(
+          "button",
+          {
+            type: "button",
+            class: classes.join(" "),
+            onclick: function () {
+              state.selected = key;
+              state.open = new Set();
+              render();
+            },
+          },
+          [
+            el("span", { class: "day-num", text: String(d.getDate()) }),
+            corr && corr.emoji ? el("span", { class: "day-emoji", text: corr.emoji }) : null,
+            marks,
+          ],
+        );
+      }),
+    );
+
+    return el("section", null, [bar, el("div", { class: "surface grid-card" }, [weekdays, grid])]);
+  }
+
+  function shiftMonth(delta) {
+    var d = new Date(state.cursor.year, state.cursor.month + delta, 1);
+    state.cursor = { year: d.getFullYear(), month: d.getMonth() };
+    render();
+  }
+
+  function dayPanel() {
+    var dayEvents = visibleOn(state.selected);
+    var list = el("div", { class: "day-list" });
+    if (dayEvents.length === 0) {
+      list.appendChild(
+        el("p", { class: "surface empty", text: "Nothing marked on this day." }),
+      );
+    } else {
+      dayEvents.forEach(function (event) {
+        var hasBody = String(event.description || "").trim().length > 0;
+        var isOpen = state.open.has(event.id);
+        var head = el(
+          "button",
+          {
+            type: "button",
+            class: "event-head",
+            "aria-expanded": isOpen ? "true" : "false",
+            onclick: function () {
+              if (!hasBody) return;
+              if (state.open.has(event.id)) state.open.delete(event.id);
+              else state.open.add(event.id);
+              render();
+            },
+          },
+          [
+            el("span", null, [dot(event.category, true)]),
+            el("span", null, [
+              el("span", { class: "event-titles" }, [
+                el("h3", { class: "event-title", text: event.title }),
+                el("span", {
+                  class: "event-meta",
+                  text: formatTime(event.time) + " · " + CATEGORY_LABELS[event.category],
+                }),
+              ]),
+              hasBody && !isOpen
+                ? el("p", {
+                    class: "event-preview",
+                    text:
+                      String(event.description)
+                        .split("\n")
+                        .filter(Boolean)[0] || "",
+                  })
+                : null,
+            ]),
+          ],
+        );
+        var article = el("article", { class: "surface event" }, [head]);
+        if (isOpen && hasBody) {
+          var body = el("div", { class: "event-body" });
+          body.appendChild(linkify(event.description));
+          if (event.url) {
+            body.appendChild(
+              el("div", null, [
+                el("a", {
+                  href: event.url,
+                  target: "_blank",
+                  rel: "noreferrer",
+                  text: "More information",
+                }),
+              ]),
+            );
+          }
+          article.appendChild(body);
+        }
+        list.appendChild(article);
+      });
+    }
+
+    return el("aside", { class: "day-panel" }, [
+      el("div", null, [
+        el("h2", { text: formatLongDate(state.selected) }),
+        el("p", {
+          class: "caps muted",
+          text: dayEvents.length + " " + (dayEvents.length === 1 ? "entry" : "entries"),
+        }),
+      ]),
+      list,
+    ]);
+  }
+
+  function horizonSection() {
+    var featured = new Set(["sabbat", "moon", "retrograde", "zodiac", "feast"]);
+    var keys = Array.from(index.keys()).sort();
+    var soon = [];
+    keys.forEach(function (k) {
+      index.get(k).forEach(function (e) {
+        if (e.date >= today && featured.has(e.category) && state.filter.has(e.category))
+          soon.push(e);
+      });
+    });
+    soon = soon.slice(0, 8);
+
+    return el("section", { class: "horizon" }, [
+      el("h2", { text: "On the horizon" }),
+      el(
+        "div",
+        { class: "horizon-grid" },
+        soon.map(function (e) {
+          return el(
+            "button",
+            {
+              type: "button",
+              class: "surface horizon-item",
+              onclick: function () {
+                var p = e.date.split("-").map(Number);
+                state.cursor = { year: p[0], month: p[1] - 1 };
+                state.selected = e.date;
+                state.open = new Set();
+                render();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              },
+            },
+            [
+              dot(e.category, true),
+              el("span", null, [
+                el("span", { class: "title", text: e.title }),
+                el("span", { class: "date", text: formatLongDate(e.date) }),
+              ]),
+            ],
+          );
+        }),
+      ),
+    ]);
+  }
+
+  function aboutSection() {
+    return el("section", { class: "page-footer" }, [
+      el("h2", { text: "About" }),
+      el("p", {
+        class: "lede",
+        text:
+          "In summer 2026 I decided I wanted a calendar of all the daily correspondences, witch's wheel of the year sabbats (both Astrological and Celtic Calendar), feasts, and major astrology dates (like sun/zodiac signs, new, quarter and full moons and retrogrades) that I utilize in my practice. I'm just someone who likes witchin' around the house and no real expert, so the calendar is linked to the sources from where I gathered my information.",
+      }),
+      el("p", {
+        class: "lede",
+        text:
+          "I figured if I wanted that calendar, someone else may, too so I shared it with some other witchy folks online. Using the same logic, someone asked for an app. So the Hygge Hearth Witch's Wheel of the Year was created ✨",
+      }),
+    ]);
+  }
+
+  rebuildIndex();
+  render();
+})();
+
+    </script>
+  </body>
+</html>
