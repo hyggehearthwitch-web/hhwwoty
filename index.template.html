@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Karla:wght@400;500;600&amp;display=swap" />
     <style>
 
-/* Witch's Wheel of the Year — standalone stylesheet (no build step required) */
+/* A Hygge Hearth Witch's Wheel of the Year — standalone stylesheet (no build step required) */
 
 :root {
   --radius: 0.75rem;
@@ -631,7 +631,7 @@ a:hover {
   }
 
   var DATA = JSON.parse(document.getElementById("wheel-data").textContent);
-  var META = DATA.meta || { name: "Witch's Wheel of the Year", timezone: DEFAULT_TZ };
+  var META = DATA.meta || { name: "A Hygge Hearth Witch's Wheel of the Year", timezone: DEFAULT_TZ };
   var EVENTS = normalize(DATA.events);
   var liveStatus = {
     state: "snapshot",
