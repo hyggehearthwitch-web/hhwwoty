@@ -339,7 +339,7 @@ def main():
 
     data = {
         "meta": {
-            "name": "Witch's Wheel of the Year",
+            "name": "A Hygge Hearth Witch's Wheel of the Year",
             "timezone": DEFAULT_TZ,
             "syncedAt": datetime.now().isoformat(),
             "source": ICS_URL,
